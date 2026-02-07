@@ -1,1 +1,139 @@
-# sca110
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注册 / 登录表单</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .toggle-link {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #007bff;
+      cursor: pointer;
+    }
+
+    .toggle-link:hover {
+      text-decoration: underline;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 注册表单 -->
+    <form id="registerForm">
+      <h2>注册</h2>
+      <div class="error" id="registerError"></div>
+      <input type="text" id="regUsername" placeholder="用户名" required>
+      <input type="email" id="regEmail" placeholder="邮箱" required>
+      <input type="password" id="regPassword" placeholder="密码" required>
+      <input type="password" id="regConfirmPassword" placeholder="确认密码" required>
+      <button type="submit">注册</button>
+      <span class="toggle-link" onclick="toggleForms()">已有账号？登录</span>
+    </form>
+
+    <!-- 登录表单 -->
+    <form id="loginForm" style="display:none;">
+      <h2>登录</h2>
+      <div class="error" id="loginError"></div>
+      <input type="email" id="loginEmail" placeholder="邮箱" required>
+      <input type="password" id="loginPassword" placeholder="密码" required>
+      <button type="submit">登录</button>
+      <span class="toggle-link" onclick="toggleForms()">没有账号？注册</span>
+    </form>
+  </div>
+
+  <script>
+    function toggleForms() {
+      const registerForm = document.getElementById('registerForm');
+      const loginForm = document.getElementById('loginForm');
+      registerForm.style.display = registerForm.style.display === 'none' ? 'block' : 'none';
+      loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // 注册表单提交
+    document.getElementById('registerForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const username = document.getElementById('regUsername').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const confirmPassword = document.getElementById('regConfirmPassword').value;
+      const errorDiv = document.getElementById('registerError');
+
+      if(password !== confirmPassword){
+        errorDiv.textContent = "密码和确认密码不匹配！";
+        return;
+      }
+
+      // 这里可以写 AJAX 提交到后端
+      errorDiv.style.color = 'green';
+      errorDiv.textContent = `注册成功！用户名: ${username}, 邮箱: ${email}`;
+    });
+
+    // 登录表单提交
+    document.getElementById('loginForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const errorDiv = document.getElementById('loginError');
+
+      // 这里可以写 AJAX 提交到后端验证
+      errorDiv.style.color = 'green';
+      errorDiv.textContent = `登录成功！邮箱: ${email}`;
+    });
+  </script>
+</body>
+</html>
